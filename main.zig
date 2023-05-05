@@ -30,10 +30,10 @@ const opControl = [_]CU{
     .{ .BusW = 1, .RegDest = 1, .AluB = 1, .PCSrc = 0 },
     .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 1 },
     // branch
-    .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 1 },
-    .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 1 },
-    .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 1 },
-    .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 0 },
+    .{ .BusW = 0, .RegDest = 1, .AluB = 0, .PCSrc = 1 },
+    .{ .BusW = 0, .RegDest = 1, .AluB = 0, .PCSrc = 1 },
+    .{ .BusW = 0, .RegDest = 1, .AluB = 0, .PCSrc = 1 },
+    .{ .BusW = 0, .RegDest = 1, .AluB = 0, .PCSrc = 0 },
     // jump, lui
     .{ .BusW = 2, .RegDest = 1, .AluB = 1, .PCSrc = 0 },
     .{ .BusW = 0, .RegDest = 2, .AluB = 3, .PCSrc = 0 },
