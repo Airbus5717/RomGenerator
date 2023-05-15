@@ -1,8 +1,9 @@
 const std = @import("std");
 
 
+const CUsize = u8;
 // memory layout (u8 -> unsigned 8 bit)
-const CU = packed struct(u8) {
+const CU = packed struct(CUsize) {
     BusW: u2,
     RegDest: u2,
     AluB: u2,
@@ -14,8 +15,11 @@ const opControl = [_]CU{
     .{ .BusW = 0, .RegDest = 0, .AluB = 0, .PCSrc = 0 }, // ADD ... SLTU
     .{ .BusW = 0, .RegDest = 0, .AluB = 0, .PCSrc = 0 }, // XOR ... NOR
     .{ .BusW = 0, .RegDest = 0, .AluB = 0, .PCSrc = 0 }, // SLL ... ROR
+    // NOP
+    .{ .BusW = 0, .RegDest = 0, .AluB = 0, .PCSrc = 0 }, // NOP
     // I-Type
     .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 0 }, // ADDI
+    .{ .BusW = 0, .RegDest = 0, .AluB = 0, .PCSrc = 0 }, // NOP
     .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 0 }, // SLTI
     .{ .BusW = 0, .RegDest = 1, .AluB = 1, .PCSrc = 0 }, // SLTIU
     .{ .BusW = 0, .RegDest = 1, .AluB = 2, .PCSrc = 0 }, // XORI
@@ -36,17 +40,14 @@ const opControl = [_]CU{
     .{ .BusW = 0, .RegDest = 1, .AluB = 0, .PCSrc = 0 }, // BGE
     // jump, lui
     .{ .BusW = 2, .RegDest = 1, .AluB = 1, .PCSrc = 0 }, // JALR
-    .{ .BusW = 0, .RegDest = 2, .AluB = 3, .PCSrc = 0 }, // LUI
+    .{ .BusW = 0, .RegDest = 3, .AluB = 3, .PCSrc = 0 }, // LUI
     .{ .BusW = 0, .RegDest = 1, .AluB = 3, .PCSrc = 2 }, // J
     .{ .BusW = 0, .RegDest = 3, .AluB = 3, .PCSrc = 2 }, // JAL
 };
 
 pub fn main() !void {
     // CREATE FILE
-    const file = try std.fs.cwd().createFile(
-        "raw.hex",
-        .{ .read = true },
-    );
+    const file = try std.fs.cwd().createFile("raw.hex", .{ .read = true });
     defer file.close();
 
     _ = try file.writeAll("v2.0 raw\n");
